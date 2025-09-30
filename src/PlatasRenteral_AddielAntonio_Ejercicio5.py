@@ -27,16 +27,16 @@ def find_complete_orfs(dna_sequence):
                         j += 3
                     # Solo agregamos ORF si encontramos un codon de paro, y agregamos '*'
                     if protein_seq and protein_seq[0] == "M" and found_stop:
-                        protein_seq += "*"  # marcar codon de stop
+                        protein_seq += "*"  # Marcar codon de stop
                         orfs.append(protein_seq)
-                    i = j + 3  # continuar despues del codon stop
+                    i = j + 3  # Continuar despues del codon stop
                 else:
                     i += 3
         return orfs
 
     # Hebra principal
     proteins.extend(extract_orfs(dna_sequence))
-    # Hebra reverso complementaria
+    # Hebra Reverso complementaria
     rev_comp_sequence = str(Seq(dna_sequence).reverse_complement())
     proteins.extend(extract_orfs(rev_comp_sequence))
 
