@@ -1,7 +1,7 @@
 from Bio.Seq import Seq
 
 def find_complete_orfs(dna_sequence):
-    """Encuentra ORFs completos que empiezan con ATG y terminan en codón de paro, incluyendo '*' al final"""
+    """Encuentra ORFs completos que empiezan con ATG y terminan en un codon de paro, incluyendo '*' al final"""
     start_codon = "ATG"
     stop_codons = {"TAA", "TAG", "TGA"}
     proteins = []
@@ -25,18 +25,18 @@ def find_complete_orfs(dna_sequence):
                         aa = Seq(current_codon).translate()
                         protein_seq += str(aa)
                         j += 3
-                    # Solo agregamos ORF si encontramos codón de paro, y agregamos '*'
+                    # Solo agregamos ORF si encontramos un codon de paro, y agregamos '*'
                     if protein_seq and protein_seq[0] == "M" and found_stop:
-                        protein_seq += "*"  # Marcar codón de stop
+                        protein_seq += "*"  # marcar codon de stop
                         orfs.append(protein_seq)
-                    i = j + 3  # continuar después del codón stop
+                    i = j + 3  # continuar despues del codon stop
                 else:
                     i += 3
         return orfs
 
-    # Hebra directa
+    # Hebra principal
     proteins.extend(extract_orfs(dna_sequence))
-    # Hebra complementaria inversa
+    # Hebra reverso complementaria
     rev_comp_sequence = str(Seq(dna_sequence).reverse_complement())
     proteins.extend(extract_orfs(rev_comp_sequence))
 
